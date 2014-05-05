@@ -5,6 +5,7 @@ module Webrat
       meths.each do |meth|
         self.class_eval(<<-RUBY, __FILE__, __LINE__)
           def #{meth}(*args, &blk)
+            ActiveSupport::Deprecation.warn "Webrat method called! Please change #{meth} at \#\{caller[0]\} to its Capybara equivalent"
             webrat_session.#{meth}(*args, &blk)
           end
         RUBY
