@@ -1,9 +1,18 @@
 require "webrat/integrations/rails"
-require "action_controller/record_identifier"
+
+if Rails::VERSION::MAJOR >= 4 && Rails::VERSION::MINOR >= 1
+  require "action_view/record_identifier"
+else
+  require "action_controller/record_identifier"
+end
 
 module Webrat
   class RailsAdapter #:nodoc:
-    include ActionController::RecordIdentifier
+    if Rails::VERSION::MAJOR >= 4 && Rails::VERSION::MINOR >= 1
+      include ActionView::RecordIdentifier
+    else
+      include ActionController::RecordIdentifier
+    end
 
     attr_reader :integration_session
 
